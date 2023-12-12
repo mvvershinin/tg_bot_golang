@@ -39,7 +39,6 @@ func (c *Client) Updates(offset int, limit int) ([]Update, error) {
 	query.Add("offset", strconv.Itoa(offset))
 	query.Add("limit", strconv.Itoa(limit))
 
-	// doRequest
 	data, err := c.doRequest(getUpdatesMethod, query)
 	if err != nil {
 		return nil, err
@@ -68,7 +67,7 @@ func (c *Client) SendMessage(chatId int, text string) error {
 
 func (c *Client) doRequest(method string, query url.Values) (data []byte, err error) {
 	defer func() { err = e.WrapIfErr("cannot do request", err) }()
-	const errMsg = "cannot do request"
+
 	address := url.URL{
 		Scheme: "https",
 		Host:   c.host,
