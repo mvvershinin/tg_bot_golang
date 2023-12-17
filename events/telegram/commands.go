@@ -10,8 +10,8 @@ import (
 	"tg_bot_golang/storage"
 )
 
-// todo env
 const (
+	// todo env
 	APP_DEBUG = true
 	CmdRnd    = "/rnd"
 	CmdStart  = "/start"

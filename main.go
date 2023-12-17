@@ -3,22 +3,34 @@ package tg_bot_golang
 import (
 	"flag"
 	"log"
+	event_consumer "tg_bot_golang/consumer/event-consumer"
+	"tg_bot_golang/events/telegram"
+	"tg_bot_golang/storage/files"
 
-	"tg_bot_golang/clients/telegram"
+	telegramClient "tg_bot_golang/clients/telegram"
+	//"read-adviser-bot/events/telegramClient"
 )
 
 const (
-	tgBotHost = "api.telegram.org"
+	TgBotHost   = "api.telegramClient.org"
+	StoragePath = "storage"
+	BatchSize   = 100
 )
 
 func main() {
-	tgClient = telegram.New(tgBotHost, mustToken())
+	eventsProcessor := telegram.New(
+		telegramClient.New(TgBotHost, mustToken()),
+		files.New(StoragePath),
+	)
 
-	//fetcher = fetcher.New(tgClient)
+	log.Print("service started")
 
-	//processor = processor.New(tgClient)
+	consumer := event_consumer.New(eventsProcessor, eventsProcessor, BatchSize)
 
-	// consumer.Start(fetcher, processor)
+	if err := consumer.Start(); err != nil {
+		log.Fatal("service crashed")
+	}
+
 }
 
 func mustToken() string {
