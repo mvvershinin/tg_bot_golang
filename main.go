@@ -1,18 +1,16 @@
-package tg_bot_golang
+package main
 
 import (
 	"flag"
 	"log"
-	event_consumer "tg_bot_golang/consumer/event-consumer"
+	telegramClient "tg_bot_golang/clients/telegram"
+	eventConsumer "tg_bot_golang/consumer/event-consumer"
 	"tg_bot_golang/events/telegram"
 	"tg_bot_golang/storage/files"
-
-	telegramClient "tg_bot_golang/clients/telegram"
-	//"read-adviser-bot/events/telegramClient"
 )
 
 const (
-	TgBotHost   = "api.telegramClient.org"
+	TgBotHost   = "api.telegram.org"
 	StoragePath = "storage"
 	BatchSize   = 100
 )
@@ -25,7 +23,7 @@ func main() {
 
 	log.Print("service started")
 
-	consumer := event_consumer.New(eventsProcessor, eventsProcessor, BatchSize)
+	consumer := eventConsumer.New(eventsProcessor, eventsProcessor, BatchSize)
 
 	if err := consumer.Start(); err != nil {
 		log.Fatal("service crashed")
