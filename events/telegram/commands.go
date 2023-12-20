@@ -74,7 +74,7 @@ func (p *Processor) savePage(chatId int, pageUrl string, username string) (err e
 }
 
 func (p *Processor) sendRandom(chatId int, username string) (err error) {
-	defer func() { err = e.Wrap("cannot do command random page", err) }()
+	defer func() { err = e.WrapIfErr("cannot do command random page", err) }()
 
 	sendMsg := NewMessageSender(chatId, p.tg)
 
@@ -99,7 +99,7 @@ func (p *Processor) sendRandom(chatId int, username string) (err error) {
 
 func (p *Processor) sendHelp(chatId int) error {
 	sendMsg := NewMessageSender(chatId, p.tg)
-	return sendMsg(MsgHelp)
+	return sendMsg("MsgHelp")
 }
 
 func (p *Processor) sendHello(chatId int) error {

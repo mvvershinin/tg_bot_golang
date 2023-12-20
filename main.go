@@ -1,7 +1,6 @@
 package main
 
 import (
-	"flag"
 	"log"
 	telegramClient "tg_bot_golang/clients/telegram"
 	eventConsumer "tg_bot_golang/consumer/event-consumer"
@@ -11,13 +10,14 @@ import (
 
 const (
 	TgBotHost   = "api.telegram.org"
-	StoragePath = "storage"
+	StoragePath = "file_storage"
 	BatchSize   = 100
 )
 
 func main() {
 	eventsProcessor := telegram.New(
-		telegramClient.New(TgBotHost, mustToken()),
+		//telegramClient.New(TgBotHost, mustToken()),
+		telegramClient.New(TgBotHost, "6418451085:AAH6OrMNfvoeAKVJxiK7hTdKNLPOKRHSG6Y"),
 		files.New(StoragePath),
 	)
 
@@ -31,12 +31,12 @@ func main() {
 
 }
 
-func mustToken() string {
-	token := flag.String("token-bot-token", "", "token for access tg bot")
-	flag.Parse()
-
-	if *token == "" {
-		log.Fatal("token empty")
-	}
-	return "string"
-}
+//func mustToken() string {
+//	token := flag.String("token-bot-token", "", "token for access tg bot")
+//	flag.Parse()
+//	token := "6418451085:AAH6OrMNfvoeAKVJxiK7hTdKNLPOKRHSG6Y"
+//	if *token == "" {
+//		log.Fatal("token empty")
+//	}
+//	return *token
+//}

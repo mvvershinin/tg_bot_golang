@@ -53,7 +53,7 @@ func (s Storage) Save(page *storage.Page) (err error) {
 }
 
 func (s Storage) PickRandom(userName string) (page *storage.Page, err error) {
-	defer func() { err = e.Wrap("cannot pick random page", err) }()
+	defer func() { err = e.WrapIfErr("cannot pick random page", err) }()
 
 	path := filepath.Join(s.basePath, userName)
 
@@ -68,11 +68,9 @@ func (s Storage) PickRandom(userName string) (page *storage.Page, err error) {
 
 	rand.Seed(time.Now().UnixNano())
 	n := rand.Intn(len(files))
-
 	file := files[n]
 
 	return s.decodePage(filepath.Join(path, file.Name()))
-
 }
 
 func (s Storage) Remove(p *storage.Page) error {
@@ -121,6 +119,7 @@ func (s Storage) decodePage(filePath string) (*storage.Page, error) {
 	var page storage.Page
 
 	if err := gob.NewDecoder(file).Decode(&page); err != nil {
+		fmt.Print("error decode")
 		return nil, e.Wrap("cannot decode page", err)
 	}
 
